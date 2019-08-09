@@ -1,0 +1,14 @@
+{
+  "name": "compresspath",
+  "version": "1.0.0",
+  "description": "compress line paths",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Erik Swan",
+  "license": "ISC",
+  "dependencies": {
+    "yargs": "^13.3.0"
+  }
+}
