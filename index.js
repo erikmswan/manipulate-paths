@@ -21,7 +21,6 @@ function getSlope(origin, destination) {
 
 function removeUnnecessaryPoints(rawInput) {
   const input = rawInput.slice();
-  if (argv.reverse === 'true') input.reverse();
   const indicesToDelete = [];
   for (let i = 1; i < input.length; i++) {
     if (i === input.length - 1) break;
@@ -45,7 +44,49 @@ function translatePoints(input, xOffset = 0, yOffset = 0) {
   return input.map(point => [point[0] + parseFloat(xOffset), point[1] + parseFloat(yOffset)]);
 }
 
+function sortDesc(a, b) {
+  if (a > b) return -1;
+  if (a < b) return 1;
+  return 0;
+}
+
+function normalizePath(input) {
+  const allXs = [];
+  const allYs = [];
+  // first we extract all x and ys
+  input.forEach(([x, y]) => {
+    allXs.push(x);
+    allYs.push(y);
+  });
+  // sort them ascending to make finding the bounding box easier
+  allXs.sort(sortDesc);
+  allYs.sort(sortDesc);
+  // create the bounding box we will use to normalize the values
+  const upperBoundX = allXs[0];
+  const upperBoundY = allYs[0];
+
+  return input.map(([x, y]) => [x / upperBoundX, y / upperBoundY]);
+}
+
+function scaleNormalizedPath(input, scaleX, scaleY) {
+  return input.map(([x, y]) => [x * scaleX, y * scaleY]);
+}
+
 // do our processing
+
+if (argv.h != undefined) {
+  console.log(`
+Path Processing tool.
+
+Possible arguments:
+--compress=false // This will stop the compression. Runs by default.
+--reverse        // This will reverse the path direction.
+--translateX=500 // This will translate the path on the X axis by the number provided.
+--translateY=500 // This will translate the path on the Y axis by the number provided.
+--scale=300,200  // This will scale the lines to the resolution provided.
+  `);
+  return;
+}
 
 let output = input;
 
@@ -57,12 +98,32 @@ if (argv.translateX != undefined || argv.translateY != undefined) {
   output = translatePoints(output, argv.translateX, argv.translateY);
 }
 
+if (argv.reverse != null) output.reverse();
+
+if (argv.scale != undefined) {
+  const scaleFormat = /^\d+,\d+$/;
+  if (argv.scale.match(scaleFormat) == null) {
+    console.log('Scale argument malformed. Should be in the form of "--scale=300,200"');
+    return;
+  }
+  const [scaleX, scaleY] = argv.scale.split(',');
+  console.log('scaleX', scaleX, 'scaleY', scaleY);
+
+  // first we normalize the path. then we scale it up.
+  const normalizedPath = normalizePath(output);
+  output = scaleNormalizedPath(normalizedPath, parseFloat(scaleX), parseFloat(scaleY));
+}
+
+console.log('first output point: ', output[0]);
 console.log('input.length: ', input.length);
 console.log('output.length: ', output.length);
-console.log('difference: ', input.length - output.length);
-console.log('x translation: ', argv.translateX);
-console.log('y translation: ', argv.translateY);
+console.log('compressed by number of points: ', input.length - output.length);
+if (argv.translateX) console.log('x translation: ', argv.translateX);
+if (argv.translateY) console.log('y translation: ', argv.translateY);
+if (argv.scale) console.log('scale factor: ', argv.scale);
 
-fs.writeFile('./output.json', JSON.stringify(output), err => {
+const filepath = './output.json';
+fs.unlinkSync(filepath);
+fs.writeFileSync(filepath, JSON.stringify(output), err => {
   if (err) console.log(err);
 });
