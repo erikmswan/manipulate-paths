@@ -1,5 +1,6 @@
 const input = require('./input');
 const fs = require('fs');
+const argv = require('yargs').argv;
 
 function getSlope(origin, destination) {
   const ogCoord = {
@@ -20,6 +21,11 @@ function getSlope(origin, destination) {
 
 function removeUnnecessaryPoints(rawInput) {
   const input = rawInput.slice();
+  console.log('argv', argv, argv.reverse === 'true');
+  if (argv.reverse === 'true') {
+    console.log('reversing');
+    input.reverse();
+  }
   const indicesToDelete = [];
   for (let i = 1; i < input.length; i++) {
     if (i === input.length - 1) break;
