@@ -25,7 +25,7 @@ function removeUnnecessaryPoints(rawInput) {
   const indicesToDelete = [];
   for (let i = 1; i < input.length; i++) {
     if (i === input.length - 1) break;
-    
+
     let thisSlope = getSlope(input[i - 1], input[i]);
     let nextSlope = getSlope(input[i], input[i + 1]);
     if (thisSlope === nextSlope) {
@@ -42,12 +42,8 @@ function removeUnnecessaryPoints(rawInput) {
 }
 
 function translatePoints(input, xOffset = 0, yOffset = 0) {
-  return input.map(point => [
-    point[0] + parseFloat(xOffset),
-    point[1] + parseFloat(yOffset)
-  ]);
+  return input.map(point => [point[0] + parseFloat(xOffset), point[1] + parseFloat(yOffset)]);
 }
-
 
 // do our processing
 
@@ -57,10 +53,7 @@ if (argv.compress !== 'false') {
   output = removeUnnecessaryPoints(output);
 }
 
-if (
-  argv.translateX != undefined
-  || argv.translateY != undefined
-) {
+if (argv.translateX != undefined || argv.translateY != undefined) {
   output = translatePoints(output, argv.translateX, argv.translateY);
 }
 
@@ -71,5 +64,5 @@ console.log('x translation: ', argv.translateX);
 console.log('y translation: ', argv.translateY);
 
 fs.writeFile('./output.json', JSON.stringify(output), err => {
-  if (err) console.log(err)
+  if (err) console.log(err);
 });
