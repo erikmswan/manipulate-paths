@@ -79,7 +79,7 @@ if (argv.h != undefined) {
 Path Processing tool.
 
 Possible arguments:
---compress=false // This will stop the compression. Runs by default.
+--no-compress    // This will stop the compression. Runs by default.
 --reverse        // This will reverse the path direction.
 --translateX=500 // This will translate the path on the X axis by the number provided.
 --translateY=500 // This will translate the path on the Y axis by the number provided.
@@ -90,7 +90,7 @@ Possible arguments:
 
 let output = input;
 
-if (argv.compress !== 'false') {
+if (argv.compress !== false) {
   output = removeUnnecessaryPoints(output);
 }
 
