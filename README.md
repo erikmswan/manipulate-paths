@@ -13,3 +13,4 @@ Run with `yarn start` with any arguments. You can also just use your system's no
 - `--translateX=500` // This will translate the path on the X axis by the number provided.
 - `--translateY=500` // This will translate the path on the Y axis by the number provided.
 - `--scale=300,200`  // This will scale the lines to the resolution provided.
+- `--ci`             // Output in the format of ci::vec2's instead of JSON (for a specific use case I had).

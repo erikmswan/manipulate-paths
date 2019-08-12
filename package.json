@@ -1,7 +1,7 @@
 {
-  "name": "compresspath",
+  "name": "manipulate-paths",
   "version": "1.0.0",
-  "description": "compress line paths",
+  "description": "manipulate paths",
   "main": "index.js",
   "scripts": {
     "start": "node ."

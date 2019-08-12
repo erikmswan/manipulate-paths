@@ -85,7 +85,7 @@ Possible arguments:
 --translateX=500 // This will translate the path on the X axis by the number provided.
 --translateY=500 // This will translate the path on the Y axis by the number provided.
 --scale=300,200  // This will scale the lines to the resolution provided.
---json           // Outputs JSON instead of a specific use case where I needed cinder vec2's.
+--ci             // Outputs ci::vec2's instead of JSON.
   `);
   return;
 }
@@ -131,7 +131,7 @@ if (fs.existsSync(filepath)) {
 }
 
 // we either do the specific use case of generating vec2s in cinder, or we can specify json. By default, does vec2s.
-if (argv.json !== true) {
+if (argv.ci === true) {
   output = output.forEach(point => {
     fs.appendFileSync(filepath, os.EOL + `ci::vec2(${point[0]}, ${point[1]}),`, err => {
       if (err) console.log(err);
