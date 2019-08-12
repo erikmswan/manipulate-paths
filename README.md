@@ -4,7 +4,7 @@ A small node script for compressing, reversing, translating and scaling paths.
 
 ## Usage
 
-Does not include node. Run with `node .` and any arguments.
+Run with `yarn start` with any arguments. You can also just use your system's node with `node .`.
 
 ## Arguments
 
