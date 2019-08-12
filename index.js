@@ -1,6 +1,7 @@
 const input = require('./input');
 const fs = require('fs');
 const argv = require('yargs').argv;
+var os = require('os');
 
 function getSlope(origin, destination) {
   const ogCoord = {
@@ -84,6 +85,7 @@ Possible arguments:
 --translateX=500 // This will translate the path on the X axis by the number provided.
 --translateY=500 // This will translate the path on the Y axis by the number provided.
 --scale=300,200  // This will scale the lines to the resolution provided.
+--json           // Outputs JSON instead of a specific use case where I needed cinder vec2's.
   `);
   return;
 }
@@ -98,7 +100,7 @@ if (argv.translateX != undefined || argv.translateY != undefined) {
   output = translatePoints(output, argv.translateX, argv.translateY);
 }
 
-if (argv.reverse != null) output.reverse();
+if (argv.reverse === true) output.reverse();
 
 if (argv.scale != undefined) {
   const scaleFormat = /^\d+,\d+$/;
@@ -123,7 +125,20 @@ if (argv.translateY) console.log('y translation: ', argv.translateY);
 if (argv.scale) console.log('scale factor: ', argv.scale);
 
 const filepath = './output.json';
-fs.unlinkSync(filepath);
-fs.writeFileSync(filepath, JSON.stringify(output), err => {
-  if (err) console.log(err);
-});
+
+if (fs.existsSync(filepath)) {
+  fs.unlinkSync(filepath);
+}
+
+// we either do the specific use case of generating vec2s in cinder, or we can specify json. By default, does vec2s.
+if (argv.json !== true) {
+  output = output.forEach(point => {
+    fs.appendFileSync(filepath, os.EOL + `ci::vec2(${point[0]}, ${point[1]}),`, err => {
+      if (err) console.log(err);
+    });
+  });
+} else {
+  fs.writeFileSync(filepath, JSON.stringify(output), err => {
+    if (err) console.log(err);
+  });
+}
