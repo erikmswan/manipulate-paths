@@ -114,6 +114,11 @@ set-blocking@^2.0.0:
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
   integrity sha1-BF+XgtARrppoA93TgrJDkrPYkPc=
 
+smart-svg-path@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/smart-svg-path/-/smart-svg-path-1.0.3.tgz#f25cc920bb885ca2c6a1ca1a74a82dfbdf23adfe"
+  integrity sha512-5S6lEG3s8cGLtmc7kIPwcTkr/fSQXnmu2x1jLx5eBfzbTlLXRyNUR0Chtl5a/Pdt+SB2Qcqd8oV+o8HGLwxuSA==
+
 string-width@^3.0.0, string-width@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-3.1.0.tgz#22767be21b62af1081574306f69ac51b62203961"

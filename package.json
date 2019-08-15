@@ -9,6 +9,7 @@
   "author": "Erik Swan",
   "license": "ISC",
   "dependencies": {
+    "smart-svg-path": "^1.0.3",
     "yargs": "^13.3.0"
   },
   "devDependencies": {},
