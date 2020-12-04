@@ -1,6 +1,6 @@
 # Manipulate Paths
 
-A small node script for compressing, reversing, translating and scaling paths.
+A small node script for compressing, reversing, translating and scaling paths represented by [x, y] coordinates. Can output in ci::vec2 format because that's what I needed it for at the time.
 
 ## Usage
 
